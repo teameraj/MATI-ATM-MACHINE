@@ -1,3 +1,6 @@
+#ifndef STRUCTURES_H_INCLUDED
+#define STRUCTURES_H_INCLUDED
+
 struct Transaction 
 {
      double amount;
@@ -13,3 +16,5 @@ struct Account
     struct Transaction* transactionList; //including transaction structure into account structure
     struct Account* next;
 };
+
+#endif // STRUCTURES_H_INCLUDED
