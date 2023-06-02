@@ -1,1 +1,154 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "structures.h"
+#include "functions.h"
+#define DEPOSIT_LIMIT 500000
+#define WITHDRAWL_LIMIT 50000
+#define CASH 0
+#define CHECK 1
+
+int main()
+{
+    struct Account* head = NULL; //declare the pointer head to null
+    addAccountFromFile(&head); //use the function to get informations from the text file
+
+    int ID, PIN;
+    printf("Welcome to our ATM machine!\nPlease enter your ID: ");
+    scanf("%d", &ID);
+
+    struct Account* currentAccount = head; //point the head pointer to the linked list
+     while (currentAccount != NULL)
+    {
+        if (ID == currentAccount->id) //check if the ID of current linked list is the same as the input given by user
+        {
+            
+        currentAccount = currentAccount->next;
+    }
+
+    if (currentAccount == NULL)
+    {
+        printf("Error! Invalid ID. Exiting the program.\n");
+        return 0;
+    }
+
+
+    int option;
+    double amount;
+    while (1) //while the condition is true display the main menu
+    {
+        printf("\nATM Machine Menu:\n");
+        printf("1. Cash Withdrawal\n");
+        printf("2. Balance Inquiry\n");
+        printf("3. Deposit System\n");
+        printf("4. Transaction History\n");
+        printf("0. Close\n");
+        printf("Enter an option: ");
+        scanf("%d", &option);
+
+        switch (option) //switch options of the main menu
+        {
+            case 1: //cash withdrawal
+            {
+                printf("Please enter the amount you want to withdraw: ");
+                scanf("%lf", &amount);
+                withdrawal(head, currentAccount->id, currentAccount->PIN, amount);
+                break;
+            }
+            case 2: //balance inquiry
+            {
+                printf("Your current balance is: %.2lf\n", currentAccount->balance);
+                break;
+            }
+            case 3: //deposit system
+            {
+                int depositOption;
+                printf("\nDeposit Options:\n"); //display the menu of deposit
+                printf("1. Cash\n");
+                printf("2. Check\n");
+                printf("0. Cancel\n");
+                printf("Enter a deposit option: ");
+                scanf("%d", &depositOption);
+
+                if (depositOption == 0) //exit the deposit menu
+                    break;
+
+                switch (depositOption)//switch cases of deposit
+                {
+                    case 1: //deposit in cash
+                         printf("Enter the amount to deposit: ");
+                         scanf("%lf", &amount);
+                        depositCash(head, ID, PIN, amount);
+                        addDepositTransaction(currentAccount, amount, CASH);
+                        break;
+                    case 2: //deposit in check
+                         printf("Enter the amount to deposit: ");
+                         scanf("%lf", &amount);
+                        depositCheck(head, ID, PIN, amount);
+                        addDepositTransaction(currentAccount, amount, CHECK);
+                        break;
+                    default: //error input
+                        printf("Invalid option. Please try again.\n");
+                        break;
+                }
+
+                break;
+            }
+
+            case 4: //transaction
+        {
+            int transactionOption;
+            printf("\nTransaction History Options:\n"); //display the menu of transaction
+            printf("1. Display all transactions\n");
+            printf("2. Display first 'x' transactions\n");
+            printf("3. Display last 'x' transactions\n");
+            printf("0. Cancel\n");
+            printf("Enter a transaction history option: ");
+            scanf("%d", &transactionOption);
+
+            if (transactionOption == 0) //exit the transaction menu
+                break;
+
+            switch (transactionOption) //switch transaction options
+            {
+                case 1:
+                    displayAllTransactions(head, ID, PIN);
+                    break;
+                case 2:
+                {
+                    int numTransactions;
+                    printf("Enter the number of first transactions to display: ");
+                    scanf("%d", &numTransactions);
+                    displayTransactionHistory(currentAccount->transactionList, numTransactions);
+                    break;
+                }
+                case 3:
+                {
+                    int numTransactions;
+                    printf("Enter the number of last transactions to display: ");
+                    scanf("%d", &numTransactions);
+                    displayTransactionHistory(currentAccount->transactionList, numTransactions);
+                    break;
+                }
+                case 0:
+                    break;
+                default:
+                    printf("Invalid option. Please try again.\n");
+                    break;
+            }
+
+
+            break;
+        }
+            case 0: //exiting the main menu
+                printf("Thank you for using our ATM machine!\n");
+                 updateAccountsFile(head);
+                return 0;
+            default: //error
+                printf("Invalid option. Please try again.\n");
+                break;
+        }
+    }
+
+    return 0;
+}
 
