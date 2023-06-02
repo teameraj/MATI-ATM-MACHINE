@@ -123,8 +123,7 @@ int main()
             int transactionOption;
             printf("\nTransaction History Options:\n"); //display the menu of transaction
             printf("1. Display all transactions\n");
-            printf("2. Display first 'x' transactions\n");
-            printf("3. Display last 'x' transactions\n");
+            printf("2. Display last 'x' transactions\n");
             printf("0. Cancel\n");
             printf("Enter a transaction history option: ");
             scanf("%d", &transactionOption);
@@ -138,14 +137,6 @@ int main()
                     displayAllTransactions(head, ID, PIN);
                     break;
                 case 2:
-                {
-                    int numTransactions;
-                    printf("Enter the number of first transactions to display: ");
-                    scanf("%d", &numTransactions);
-                    displayTransactionHistory(currentAccount->transactionList, numTransactions);
-                    break;
-                }
-                case 3:
                 {
                     int numTransactions;
                     printf("Enter the number of last transactions to display: ");
