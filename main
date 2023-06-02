@@ -1,3 +1,25 @@
+void depositCheck(struct Account* head, int id, int pin, double amount)
+{
+    struct Account* currentAccount = head;
+    while (currentAccount != NULL)
+    {
+        if (currentAccount->id == id && currentAccount->PIN == pin)
+        {
+            if (amount <= DEPOSIT_LIMIT)
+            {
+                currentAccount->balance += amount;
+                printf("Deposit successful. New balance: %.2lf\n", currentAccount->balance);
+            }
+            else //show error if the amount is larger than deposit limit
+            {
+                printf("Deposit amount exceeds the limit. Maximum deposit limit: %.2d\n", DEPOSIT_LIMIT);
+            }
+            return; // Found the matching account, no need to continue searching
+        }
+        currentAccount = currentAccount->next;
+    }
+    printf("No account matching the provided ID and PIN was found.\n");
+}
 void displayTransactionHistory(struct Transaction* transactionList, int numTransactions)
 {
     int count = 0;
