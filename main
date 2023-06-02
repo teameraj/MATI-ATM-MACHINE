@@ -1,1 +1,8 @@
-
+struct Account
+{
+    int id;
+    int PIN;
+    float balance;
+    struct Transaction* transactionList; //including transaction structure into account structure
+    struct Account* next;
+};
