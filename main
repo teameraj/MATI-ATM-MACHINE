@@ -102,13 +102,13 @@ int main()
                          printf("Enter the amount to deposit: ");
                          scanf("%lf", &amount);
                         depositCash(head, ID, PIN, amount);
-                        addDepositTransaction(currentAccount, amount, CASH);
+                        addDepositTransaction(head,currentAccount, amount, CASH);
                         break;
                     case 2: //deposit in check
                          printf("Enter the amount to deposit: ");
                          scanf("%lf", &amount);
                         depositCheck(head, ID, PIN, amount);
-                        addDepositTransaction(currentAccount, amount, CHECK);
+                        addDepositTransaction(head,currentAccount, amount, CHECK);
                         break;
                     default: //error input
                         printf("Invalid option. Please try again.\n");
