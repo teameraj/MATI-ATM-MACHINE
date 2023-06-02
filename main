@@ -1,3 +1,57 @@
+void withdrawal(struct Account* head, int id, int pin, double amount)
+{
+    struct Account* currentAccount = head;
+    while (currentAccount != NULL)
+    {
+        if (currentAccount->id == id && currentAccount->PIN == pin)
+        {
+            if (amount > currentAccount->balance)
+            {
+                printf("\nThe amount you want to withdraw exceeds the available balance.\n");
+                printf("Please enter again the amount you want to withdraw: ");
+                scanf("%lf", &amount);
+            }
+            else if (amount > WITHDRAWL_LIMIT) //check if the amount is larger than limit
+            {
+                printf("\nError! The amount you entered is larger than the withdrawal limit!\n");
+                printf("Please enter again the amount: ");
+                scanf("%lf", &amount);
+            }
+            else
+            {
+                currentAccount->balance -= amount;
+                printf("The withdrawal was completed successfully!\n");
+                 updateAccountsFile(head);
+            }
+            return; // Found the matching account, no need to continue searching
+        }
+        currentAccount = currentAccount->next;
+    }
+    printf("No account matching the provided ID and PIN was found.\n");
+}
+
+void depositCash(struct Account* head, int id, int pin, double amount)
+{
+    struct Account* currentAccount = head;
+    while (currentAccount != NULL)
+    {
+        if (currentAccount->id == id && currentAccount->PIN == pin)
+        {
+            if (amount <= DEPOSIT_LIMIT)
+            {
+                currentAccount->balance += amount;
+                printf("Deposit successful. New balance: %.2lf\n", currentAccount->balance);
+            }
+            else //show error if amount is larger than deposit limit
+            {
+                printf("Deposit amount exceeds the limit. Maximum deposit limit: %.2d\n", DEPOSIT_LIMIT);
+            }
+            return; // Found the matching account, no need to continue searching
+        }
+        currentAccount = currentAccount->next;
+    }
+    printf("No account matching the provided ID and PIN was found.\n");
+}
 void depositCheck(struct Account* head, int id, int pin, double amount)
 {
     struct Account* currentAccount = head;
