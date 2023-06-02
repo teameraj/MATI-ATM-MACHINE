@@ -1,1 +1,76 @@
+void displayTransactionHistory(struct Transaction* transactionList, int numTransactions)
+{
+    int count = 0;
+    struct Transaction* currentTransaction = transactionList; //point current to the first linked list of transactions
+    while (currentTransaction != NULL && count < numTransactions)
+    {
+        printf("Amount: %.2lf, ", currentTransaction->amount);
+        if (currentTransaction->transactionType == 0)
+        {
+            printf("Transaction Type: Withdrawal, ");
+        }
+        else
+        {
+            printf("Transaction Type: Deposit, ");
+        }
+        if (currentTransaction->paymentMethod == 0)
+        {
+            printf("Payment Method: Cash\n");
+        }
+        else
+        {
+            printf("Payment Method: Check\n");
+        }
+        currentTransaction = currentTransaction->next;
+        count++;
+    }
+    printf("End of transaction history.\n");
+}
 
+void displayAllTransactions(struct Account* head, int id, int pin)
+{
+    struct Account* currentAccount = head; //point current account to the first account of linked list
+    while (currentAccount != NULL)
+    {
+        if (currentAccount->id == id && currentAccount->PIN == pin)
+        {
+            printf("\nTransaction History for Account ID: %d\n", currentAccount->id);
+            struct Transaction* currentTransaction = currentAccount->transactionList;
+            while (currentTransaction != NULL)
+            {
+                printf("Amount: %.2lf, ", currentTransaction->amount);
+                if (currentTransaction->transactionType == 0)
+                {
+                    printf("Transaction Type: Withdrawal, ");
+                }
+                else
+                {
+                    printf("Transaction Type: Deposit, ");
+                }
+                if (currentTransaction->paymentMethod == 0)
+                {
+                    printf("Payment Method: Cash\n");
+                }
+                else
+                {
+                    printf("Payment Method: Check\n");
+                }
+                currentTransaction = currentTransaction->next;
+            }
+            printf("End of transaction history.\n");
+        }
+        currentAccount = currentAccount->next;
+    }
+}
+
+void addDepositTransaction(struct Account* account, double amount, int paymentMethod)
+{
+    struct Transaction* newTransaction = (struct Transaction*)malloc(sizeof(struct Transaction));
+    newTransaction->amount = amount;
+    newTransaction->paymentMethod = paymentMethod;
+    newTransaction->transactionType = 1; // 1 for deposit
+
+    // Inserting the new transaction at the beginning of the transaction list
+    newTransaction->next = account->transactionList;
+    account->transactionList = newTransaction;
+}
