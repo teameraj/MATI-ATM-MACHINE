@@ -1,9 +1,10 @@
-struct Transaction {
-    double amount;
-    int paymentMethod;
-    int transactionType; // 0 for withdrawal, 1 for deposit
-    struct Transaction* next;
-};
+struct Transaction 
+{
+     double amount;
+     int paymentMethod;
+     int transactionType; // 0 for withdrawal, 1 for deposit
+     struct Transaction* next;
+ };
 struct Account
 {
     int id;
