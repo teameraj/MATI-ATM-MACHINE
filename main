@@ -1,3 +1,10 @@
+#define FUNCTIONS_H_INCLUDED
+#include "structures.h"
+#define DEPOSIT_LIMIT 500000
+#define WITHDRAWL_LIMIT 50000
+#define CASH 0
+#define CHECK 1
+
 void addAccountFromFile(struct Account** head)
 {
     int cnt = 0;
@@ -229,3 +236,4 @@ void addDepositTransaction(struct Account* account, double amount, int paymentMe
     newTransaction->next = account->transactionList;
     account->transactionList = newTransaction;
 }
+#endif // FUNCTIONS_H_INCLUDED
