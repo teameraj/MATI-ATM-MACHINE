@@ -21,7 +21,31 @@ int main()
     {
         if (ID == currentAccount->id) //check if the ID of current linked list is the same as the input given by user
         {
-            
+          int attempts = 0; //declare a variable to count the input of PIN
+            while (attempts < 3)
+            {
+                printf("Please enter your PIN: ");
+                scanf("%d", &PIN);
+
+                if (PIN == currentAccount->PIN) //check if the PIN given by user is correct by comparing it to the pin in linked list
+                {
+                    break;
+                }
+                else //if the pin is incorrect show error and add one in attempt
+                {
+                    attempts++;
+                    printf("Error! Incorrect PIN. Please try again.\n");
+                }
+            }
+
+            if (attempts == 3) //if the number of attempts reaches 3 show security error and terminate
+            {
+                printf("Maximum PIN attempts reached. Exiting the program.\n");
+                return 0;
+            }
+
+            break;
+        }  
         currentAccount = currentAccount->next;
     }
 
