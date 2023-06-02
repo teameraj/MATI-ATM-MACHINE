@@ -1,3 +1,75 @@
+void addAccountFromFile(struct Account** head)
+{
+    int cnt = 0;
+    FILE* file = fopen("info1.txt", "r"); //the data is written on file and it just needs to be read
+   
+    fscanf(file, "%d", &cnt);
+    if (cnt == 0) //checking if the file has the data
+    {
+        printf("There is no information in the file!\n");
+        fclose(file);
+        return;
+    }
+
+    struct Account* newAccount;
+    struct Account* prev = NULL;
+    for (int i = 0; i < cnt; i++) //get information from file and store it into  linked lists
+    {
+        newAccount = (struct Account*)malloc(sizeof(struct Account));
+        fscanf(file, "%d%d%f", &newAccount->id, &newAccount->PIN, &newAccount->balance);
+        newAccount->transactionList = NULL;
+        newAccount->next = NULL;
+
+        struct Transaction* newTransaction = (struct Transaction*)malloc(sizeof(struct Transaction));
+        fscanf(file, "%lf%d", &newTransaction->amount, &newTransaction->paymentMethod);
+        newTransaction->next = NULL;
+        newAccount->transactionList = newTransaction;
+
+        if (*head == NULL)
+        {
+            *head = newAccount;
+        }
+        else
+        {
+            prev->next = newAccount;
+        }
+        prev = newAccount;
+    }
+
+    fclose(file); //closing the file
+}
+void updateAccountsFile(struct Account* head) {
+    FILE *file=NULL;
+     file = fopen("info1.txt", "w");//open the previous file in a different mode
+    
+    struct Account* currentAccount = head;
+    int cnt = 0;
+
+    // Count the number of accounts
+    while (currentAccount != NULL) {
+        cnt++;
+        currentAccount = currentAccount->next;
+    }
+
+    // Write the number of accounts to the file
+    fprintf(file, "%d\n", cnt);
+
+    // Write the account information to the file
+    currentAccount = head;
+    while (currentAccount != NULL) {
+        fprintf(file, "%d %d %.2f\n", currentAccount->id, currentAccount->PIN, currentAccount->balance);
+
+        struct Transaction* currentTransaction = currentAccount->transactionList;
+        while (currentTransaction != NULL) {
+            fprintf(file, "%.2lf %d\n", currentTransaction->amount, currentTransaction->paymentMethod);
+            currentTransaction = currentTransaction->next;
+        }
+
+        currentAccount = currentAccount->next;
+    }
+
+    fclose(file); //close the file
+}
 void withdrawal(struct Account* head, int id, int pin, double amount)
 {
     struct Account* currentAccount = head;
