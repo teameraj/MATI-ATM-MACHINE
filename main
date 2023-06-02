@@ -41,7 +41,10 @@ void addAccountFromFile(struct Account** head)
 void updateAccountsFile(struct Account* head) {
     FILE *file=NULL;
      file = fopen("info1.txt", "w");//open the previous file in a different mode
-    
+    if (file == NULL) { //check if file opens
+        printf("Can't open file for writing!\n"); //show error if file can't open
+        return;
+    }
     struct Account* currentAccount = head;
     int cnt = 0;
 
