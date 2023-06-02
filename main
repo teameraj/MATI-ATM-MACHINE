@@ -127,6 +127,7 @@ void depositCash(struct Account* head, int id, int pin, double amount)
             {
                 currentAccount->balance += amount;
                 printf("Deposit successful. New balance: %.2lf\n", currentAccount->balance);
+                 updateAccountsFile(head);
             }
             else //show error if amount is larger than deposit limit
             {
@@ -149,6 +150,7 @@ void depositCheck(struct Account* head, int id, int pin, double amount)
             {
                 currentAccount->balance += amount;
                 printf("Deposit successful. New balance: %.2lf\n", currentAccount->balance);
+                 updateAccountsFile(head);
             }
             else //show error if the amount is larger than deposit limit
             {
@@ -225,7 +227,7 @@ void displayAllTransactions(struct Account* head, int id, int pin)
     }
 }
 
-void addDepositTransaction(struct Account* account, double amount, int paymentMethod)
+void addDepositTransaction(struct Account head, struct Account* account, double amount, int paymentMethod)
 {
     struct Transaction* newTransaction = (struct Transaction*)malloc(sizeof(struct Transaction));
     newTransaction->amount = amount;
@@ -235,5 +237,6 @@ void addDepositTransaction(struct Account* account, double amount, int paymentMe
     // Inserting the new transaction at the beginning of the transaction list
     newTransaction->next = account->transactionList;
     account->transactionList = newTransaction;
+    updateAccountsFile(head);
 }
 #endif // FUNCTIONS_H_INCLUDED
